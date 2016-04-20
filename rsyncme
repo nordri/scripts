@@ -1,0 +1,16 @@
+#!/bin/bash
+# Las clásicas opciones de rsync ahora en un sólo
+# archivo para no tener que recordarlas.
+# Fede Diaz Marzo 2010
+
+PATH=/usr/local/bin:/usr/bin:/bin:/usr/games:/home/nordri/bin
+
+RSYNCOPT="--archive --verbose --perms --times --progress"
+
+if [ "$#" != 2 ]; then
+  echo "Uso: $0 origen destino";
+  exit 1;
+fi
+
+/usr/bin/rsync $RSYNCOPT $1 $2;
+
