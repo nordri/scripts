@@ -1,0 +1,35 @@
+#!/bin/bash 
+#
+# This script returns the number of pods running in each node
+# No arguments required.
+#
+# nordri@gmail.com
+# 2016/04/27
+
+# Bash colors
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+
+DATE=$(date +"%Y-%m-%d %H:%M:%S")
+
+# Get node list
+NODES=$(kubectl get nodes | tail -n +2 | awk '{print $1}')
+
+# Node Array
+declare -A PodsPerMinion
+
+# PODS running
+PODSLIST=$(mktemp)
+kubectl get pods -o yaml > $PODSLIST
+
+# Per node how many pods are running
+for NODE in $NODES
+do
+  PODS=$(cat $PODSLIST | grep host | grep $NODE | wc -l)
+  PodsPerMinion[$NODE]=$PODS
+done
+
+# Results
+printf "$DATE $STRINGRES\n"
+rm $PODSLIST
+
