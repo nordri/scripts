@@ -1,2 +1,2 @@
 # scripts
-Frequenly used scripts
+Frequently used scripts
