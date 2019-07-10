@@ -1,0 +1,19 @@
+#!/bin/bash -x
+#
+# Based on https://8192.one/post/ssh_login_notification_withtelegram/
+#
+# Fede Diaz (nordri@gmail.com) July 2019
+
+USERID="<Enter_the_user_id_of_the_recipient>" 
+KEY="<The_key_of_your_telegram_bot>" 
+TIMEOUT="10"
+URL="https://api.telegram.org/bot$KEY/sendMessage"
+DATE_EXEC=$(date "+%d %b %Y %H:%M") 
+
+if [ -n "${PAM_RHOST}" ] && [ "${PAM_TYPE}" == "open_session" ]; then 
+    HOSTNAME=$(hostname -f) 
+    IPADDR=$(hostname -I | awk '{print $1}') 
+    IP_INFOS=$(curl https://ipinfo.io/${PAM_RHOST} | jq -r '.org + " - " + .city + ", " + .region + ", " + .country')
+    TEXT="${DATE_EXEC}: ${PAM_USER} logged into ${HOSTNAME} (${IPADDR}) from ${PAM_RHOST} - ${IP_INFOS}"
+    curl -s --max-time ${TIMEOUT} -d "chat_id=${USERID}&disable_web_page_preview=1&text=${TEXT}" ${URL} > /dev/null
+fi
