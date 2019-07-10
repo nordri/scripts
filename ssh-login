@@ -3,6 +3,12 @@
 # Based on https://8192.one/post/ssh_login_notification_withtelegram/
 #
 # Fede Diaz (nordri@gmail.com) July 2019
+#
+# To trigger ssh login warnings add this to /etc/pam.d/sshd
+# session    optional     pam_exec.so seteuid       /usr/local/bin/ssh-login
+# If you want to debug add this one:
+# session    optional     pam_exec.so debug seteuid       log=PATH/TO/LOG/FILE /bin/ssh-login.sh
+
 
 USERID="<Enter_the_user_id_of_the_recipient>" 
 KEY="<The_key_of_your_telegram_bot>" 
