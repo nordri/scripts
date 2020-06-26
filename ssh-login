@@ -9,12 +9,17 @@
 # If you want to debug add this one:
 # session    optional     pam_exec.so debug seteuid       log=PATH/TO/LOG/FILE /bin/ssh-login.sh
 
-
 USERID="<Enter_the_user_id_of_the_recipient>" 
 KEY="<The_key_of_your_telegram_bot>" 
 TIMEOUT="10"
 URL="https://api.telegram.org/bot$KEY/sendMessage"
 DATE_EXEC=$(date "+%d %b %Y %H:%M") 
+
+USERS=$(who | cut -d' ' -f1 | sort | uniq)
+
+if [ ${PAM_USER} == ${USERS} ]; then
+    exit 0
+fi
 
 if [ -n "${PAM_RHOST}" ] && [ "${PAM_TYPE}" == "open_session" ]; then 
     HOSTNAME=$(hostname -f) 
