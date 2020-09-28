@@ -15,8 +15,8 @@ set -e
 TMP_DIR=$(mktemp -d)
 
 # Vscodium
-DOWNLOAD_URL=$(curl --silent "https://api.github.com/repos/VSCodium/vscodium/releases/latest" | jq -r '.assets[] | select(.content_type | contains("application/x-debian-package")) | select(.name | contains("amd64")) | .browser_download_url')
-curl -L ${DOWNLOAD_URL} --output $TMP_DIR/vscodium.deb
+DOWNLOAD_URL=$(curl --silent "https://api.github.com/repos/VSCodium/vscodium/releases/latest" | jq -r '.assets[] | select(.content_type | contains("application/octet-stream")) | select(.name | contains("amd64")) | .browser_download_url' | grep -v sha256)
+curl -L ${DOWNLOAD_URL} --output ${TMP_DIR}/vscodium.deb
 sudo dpkg -i ${TMP_DIR}/vscodium.deb
 
 # Terraform
