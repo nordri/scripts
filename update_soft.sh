@@ -24,7 +24,7 @@ DOWNLOAD_URL=$(curl --silent -L https://www.terraform.io/downloads.html | grep l
 curl -L ${DOWNLOAD_URL} --output $TMP_DIR/terraform.zip
 pushd $TMP_DIR
 unzip $TMP_DIR/terraform.zip
-sudo mv terraform /usr/local/bin/terraform
+sudo mv -v terraform /usr/local/bin/terraform
 popd
 
 # Vagrant
@@ -32,11 +32,11 @@ LATEST_VERSION=$(curl --silent https://www.vagrantup.com/ | grep -oh "Download [
 curl --silent -L https://releases.hashicorp.com/vagrant/${LATEST_VERSION}/vagrant_${LATEST_VERSION}_linux_amd64.zip --output $TMP_DIR/vagrant.zip
 pushd $TMP_DIR
 unzip $TMP_DIR/vagrant.zip
-sudo mv vagrant /usr/local/bin/vagrant
+sudo mv -v vagrant /usr/local/bin/vagrant
 popd
 
 # Minikube
 pushd $TMP_DIR
 curl -L --output minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 \
   && chmod +x minikube \
-  && sudo mv minikube /usr/bin/minikube
+  && sudo mv -v minikube /usr/bin/minikube
